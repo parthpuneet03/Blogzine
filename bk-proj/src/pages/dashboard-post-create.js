@@ -14,36 +14,27 @@ export default function dashCreatePost() {
     setImage(e.target.files[0]);
   }
 
-  const handlePost = async (event) => {
-    event.preventDefault();
-    const frmdata = new FormData();
-    frmdata.append("File", image);
-    frmdata.append("Name", postName);
-    frmdata.append("Description", description);
-    // frmdata.append('File',image)
-    // frmdata.append('File',image)
-    console.log(postName, description);
-    const url = "http://localhost:1337/api/posts";
 
-    if (
-      postName != null &&
-      description != null &&
-      postBody != null &&
-      tags != null
-    ) {
-      const res = await axios
-        .post(url, frmdata)
-        .then(function (response) {
-          console.log(response);
-          alert("posted");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+  const handlePost = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    var temp= "{\"Name\": \"Ragav3\"}"
+    formData.append("files.File", image);
+    formData.append("data", temp);
+    // formData.append("Description", description);
+
+    const res = await fetch(`http://localhost:1337/api/samples`, {
+        method: 'POST',
+        body: formData
+    });
+
+    if (res.ok) {
+      console.log("Posted")  
+      // imageUploaded();
     } else {
-      alert("One Of the text fields is empty");
+        console.log(res);
     }
-  };
+};
 
   return (
     <>
