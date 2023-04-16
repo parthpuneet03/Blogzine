@@ -1,47 +1,49 @@
 import { useState } from "react";
 import axios from "axios";
 
-
 export default function dashCreatePost() {
   const [postName, setpostName] = useState("");
   //const [postType, setpostType]= usestate('')
   const [description, setDescription] = useState("");
   const [postBody, setpostBody] = useState("");
-  const [file, setFile] = useState('')
-  const [tags, settags] = useState('')
+  const [image, setImage] = useState("");
+  const [tags, settags] = useState("");
 
-  const handlePost = async(event) => {
+  function handleimg(e) {
+    console.log(e.target.files);
+    setImage(e.target.files[0]);
+  }
+
+  const handlePost = async (event) => {
     event.preventDefault();
-    console.log(postName, description, file);
-    const url = 'http://localhost:1337/api/posts'
+    const frmdata = new FormData();
+    frmdata.append("File", image);
+    frmdata.append("Name", postName);
+    frmdata.append("Description", description);
+    // frmdata.append('File',image)
+    // frmdata.append('File',image)
+    console.log(postName, description);
+    const url = "http://localhost:1337/api/posts";
 
-  if ( postName!=null) {
-    const res = await axios.post(url, {
-    "data": {
-        "Name": postName,
-        "Description":description,
-        "Body":postBody,
-        "Tags": tags
+    if (
+      postName != null &&
+      description != null &&
+      postBody != null &&
+      tags != null
+    ) {
+      const res = await axios
+        .post(url, frmdata)
+        .then(function (response) {
+          console.log(response);
+          alert("posted");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      alert("One Of the text fields is empty");
     }
-}).then(
-      function (response) {
-        console.log(response)
-      },
-      alert("posted")
-      ,
-    )
-        .catch(
-          function (error) {
-      console.log(error)
-    }
-        )
-  }
-  else{
-    alert("Password Do Not match")
-  }
-};
-
-
+  };
 
   return (
     <>
@@ -177,10 +179,7 @@ Header START */}
                     </li>
                     <li>
                       {" "}
-                      <a
-                        className="dropdown-item"
-                        href="dashboard-post-edit"
-                      >
+                      <a className="dropdown-item" href="dashboard-post-edit">
                         Edit Post
                       </a>{" "}
                     </li>
@@ -202,10 +201,7 @@ Header START */}
                   <ul className="dropdown-menu" aria-labelledby="pagesMenu">
                     <li>
                       {" "}
-                      <a
-                        className="dropdown-item"
-                        href="dashboard-author-list"
-                      >
+                      <a className="dropdown-item" href="dashboard-author-list">
                         Author List
                       </a>
                     </li>
@@ -229,19 +225,13 @@ Header START */}
                     </li>
                     <li>
                       {" "}
-                      <a
-                        className="dropdown-item"
-                        href="dashboard-reviews"
-                      >
+                      <a className="dropdown-item" href="dashboard-reviews">
                         Reviews
                       </a>
                     </li>
                     <li>
                       {" "}
-                      <a
-                        className="dropdown-item"
-                        href="dashboard-settings"
-                      >
+                      <a className="dropdown-item" href="dashboard-settings">
                         Settings
                       </a>
                     </li>
@@ -816,9 +806,12 @@ Main contain START */}
                             <div className="position-relative">
                               <h6 className="my-2">
                                 Upload post image here, or
-                                <a href="#!" onChange={(event) =>
-                                setpostName(event.target.value)
-                              } value className="text-primary">
+                                <a
+                                  href="#!"
+                                  onChange={handleimg}
+                                  value
+                                  className="text-primary"
+                                >
                                   {" "}
                                   Browse
                                 </a>
@@ -832,8 +825,7 @@ Main contain START */}
                                     className="form-control stretched-link"
                                     type="file"
                                     name="my-image"
-                                    value={file}
-                                    onChange={(event)=> setFile(event.target.value)}
+                                    onChange={handleimg}
                                     id="image"
                                     accept="image/gif, image/jpeg, image/png"
                                   />
@@ -854,10 +846,10 @@ Main contain START */}
                             <textarea
                               className="form-control"
                               value={tags}
-                              onChange={(event)=> settags(event.target.value)}
+                              onChange={(event) => settags(event.target.value)}
                               rows={1}
                               placeholder="business, sports ..."
-                            // defaultValue={""}
+                              // defaultValue={""}
                             />
                             <small>
                               Maximum of 14 keywords. Keywords should all be in
