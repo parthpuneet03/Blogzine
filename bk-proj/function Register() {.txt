@@ -1,0 +1,23 @@
+function Register() {
+  const [user, setUser] = useState({ Name: "a@b.com"})
+  const handleSignup = async (event) => {
+    console.log("hello")
+    event.preventDefault()
+
+    //try {
+    const url = 'http://localhost:1337/api/samples'
+    //if (exampleInputPassword1 === exampleInputPassword2) {
+    const res = await axios.post(url, {
+      "data": user
+    }).then(
+      function (response) {
+        name:'Stuff'
+        console.log('Show error notification!!')
+      }
+    )
+        .catch(
+          function (error) {
+      console.log('Show error notification!')
+    }
+        )
+  };
