@@ -23,7 +23,7 @@ function Register() {
         console.log(response)
       },
       alert("Thankyou for Signing up")
-      ,window.location.assign("signin")
+      // ,window.location.assign("signin")
     )
         .catch(
           function (error) {

@@ -2,11 +2,17 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 import { useState } from "react";
 import  axios  from "axios";
+import { useRouter } from "next/router";
+import React from "react";
+import { AuthContext } from '@/context/auth-context';
 
 function Auth() {
   const[mail, setmail] = useState('')
   const[pass, setpass]= useState('')
-  
+  const authContext = React.useContext(AuthContext);
+
+  const router = useRouter();
+
   const handleSignin = async (event) => {
     console.log(mail,pass)
     console.log(process.env.STRAPI_URL)
@@ -17,8 +23,13 @@ function Auth() {
       })
       .then(function (response) {
         if(response.data.data.length>0){
-          window.location.assign("/")
+          
           const userIsAuthenticated = true
+          // const router = useRouter();
+          localStorage.setItem('token', 'xyz')
+          // authContext.setUserAuthInfo(
+          router.push('/')
+          //  )
         }
         else{
           alert("User not authorised")
