@@ -1,8 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-const AuthContext = React.createContext();
-const { Provider } = AuthContext;
+const AuthContext = React.createContext(null);
+// const { Provider } = AuthContext;
 
 const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = React.useState({
@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
  };
 
  return (
-   <Provider
+   <AuthContext.Provider
      value={{
       authState,
       setAuthState: (userAuthInfo) => setUserAuthInfo(userAuthInfo),
@@ -33,8 +33,7 @@ const AuthProvider = ({ children }) => {
     }}
    >
     {children}
-   </Provider>
+   </AuthContext.Provider>
  );
 };
-
 export { AuthContext, AuthProvider };
