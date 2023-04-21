@@ -1,39 +1,48 @@
 import React from "react";
 import { useRouter } from "next/router";
-
 const AuthContext = React.createContext(null);
-// const { Provider } = AuthContext;
+const { Provider } = AuthContext;
 
 const AuthProvider = ({ children }) => {
+  
   const [authState, setAuthState] = React.useState({
-   token: "",
+    token: "",
   });
 
   const setUserAuthInfo = ({ data }) => {
-   const token = localStorage.setItem("token", data.data);
+    localStorage.setItem("token", data.data);
+    const token = localStorage.getItem("token");
+    setAuthState({
+     token,
+    });
+  };
 
-   setAuthState({
-    token,
-   });
- };
-
- // checks if the user is authenticated or not
- const isUserAuthenticated = () => {
-  if (!authState.token) {
+  // checks if the user is authenticated or not
+  const isUserAuthenticated = () => 
+  {
+    console.log(authState.token)
+    const token = localStorage.getItem("token");
+    setAuthState({
+      token,
+     });
+    if (!authState.token) {
     return false;
+  }
+  else
+  {
+    return true;
   }
  };
 
- return (
-   <AuthContext.Provider
-     value={{
-      authState,
-      setAuthState: (userAuthInfo) => setUserAuthInfo(userAuthInfo),
-      isUserAuthenticated,
-    }}
-   >
-    {children}
-   </AuthContext.Provider>
- );
+  return (
+    <Provider
+      value={{
+        setAuthState: (userAuthInfo) => setUserAuthInfo(userAuthInfo),
+        isUserAuthenticated,
+      }}
+    >
+      {children}
+    </Provider>
+  );
 };
 export { AuthContext, AuthProvider };

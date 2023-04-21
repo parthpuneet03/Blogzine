@@ -17,8 +17,6 @@ export default function Home() {
   }, []);
 
   return (
-    <AuthProvider>
       <Home1></Home1>
-    </AuthProvider>
   );
 }

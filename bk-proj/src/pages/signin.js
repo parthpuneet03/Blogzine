@@ -17,23 +17,18 @@ function Auth() {
     console.log(mail,pass)
     console.log(process.env.STRAPI_URL)
     event.preventDefault()
-    axios({
-        method: "get",
-        url: `${process.env.STRAPI_URL}/registers?filters[email][$eq]=${mail}&filters[pass][$eq]=${pass}`,
-      })
-      .then(function (response) {
-        if(response.data.data.length>0){
-          
-          const userIsAuthenticated = true
-          // const router = useRouter();
-          localStorage.setItem('token', 'xyz')
-          // authContext.setUserAuthInfo(
-          router.push('/')
-          //  )
-        }
-        else{
-          alert("User not authorised")
-        }});
+    const url = "http://localhost:1337/api/auth/local";
+    const response= await axios.post(url,{"password":pass,"identifier":mail});
+    console.log(response);
+    if(response.data && response.data.jwt){
+      authContext.setAuthState({data:{data:response.data.jwt}})
+      router.push("/")
+
+    }
+    else{
+      alert("Invalid Credentials")
+      router.push("/signin")
+    }
   }
 
 

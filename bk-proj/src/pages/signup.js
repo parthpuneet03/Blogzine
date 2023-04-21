@@ -18,7 +18,7 @@ function Register() {
         .post("http://localhost:1337/api/auth/local/register", {
           email: user,
           password: pass1,
-          username: user,
+          username: user
         })
         .then(
           function (response) {
