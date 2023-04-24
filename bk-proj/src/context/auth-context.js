@@ -1,38 +1,40 @@
 import React from "react";
-import { useRouter } from "next/router";
+import jwt_decode from "jwt-decode";
+
 const AuthContext = React.createContext(null);
 const { Provider } = AuthContext;
 
 const AuthProvider = ({ children }) => {
-  
   const [authState, setAuthState] = React.useState({
-    token: "",
+    token: null,
   });
 
   const setUserAuthInfo = ({ data }) => {
-    localStorage.setItem("token", data.data);
+    localStorage.setItem("token", JSON.stringify(data.data));
     const token = localStorage.getItem("token");
+    var userData = data.data;
     setAuthState({
-     token,
+      userData,
+      token,
     });
   };
 
-  // checks if the user is authenticated or not
-  const isUserAuthenticated = () => 
-  {
-    console.log(authState.token)
+  const isUserAuthenticated = () => {
     const token = localStorage.getItem("token");
-    setAuthState({
-      token,
-     });
-    if (!authState.token) {
-    return false;
-  }
-  else
-  {
-    return true;
-  }
- };
+    console.log(token);
+    if (token) {
+      try {
+        var decoded = jwt_decode(JSON.parse(token));
+        console.log(decoded);
+        return true;
+      } catch (err) {
+        console.log(err);
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
 
   return (
     <Provider
@@ -45,4 +47,5 @@ const AuthProvider = ({ children }) => {
     </Provider>
   );
 };
+
 export { AuthContext, AuthProvider };

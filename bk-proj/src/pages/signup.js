@@ -10,15 +10,13 @@ function Register() {
 
   const handleSignup = async (event) => {
     event.preventDefault();
-    const url = "http://localhost:1337/api/auth/local/register";
     console.log(user, pass1, pass2);
     if (pass1 === pass2) {
-
       const res = await axios
-        .post("http://localhost:1337/api/auth/local/register", {
+        .post(`${process.env.STRAPI_URL}/auth/local/register`, {
           email: user,
           password: pass1,
-          username: user
+          username: user,
         })
         .then(
           function (response) {

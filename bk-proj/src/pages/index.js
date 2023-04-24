@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Switch, useLocation } from "react-router-dom";
 import Home1 from "./home";
 import { useRouter } from "next/router";
 import React from "react";
@@ -10,12 +10,16 @@ export default function Home() {
 
   React.useEffect(() => {
     // checks if the user is authenticated
-    console.log(authContext)
-    authContext.isUserAuthenticated()
-      ? router.push("/")
-      : router.push("/signup");
-  }, []);
-
+    const isUserAuthenticated = authContext.isUserAuthenticated();
+      if(isUserAuthenticated ){
+        console.log(isUserAuthenticated)
+        router.push("/")
+       } 
+       else{
+        console.log("user not authenticated")
+        router.push("/signin");
+}}, []);
+  
   return (
       <Home1></Home1>
   );
