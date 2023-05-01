@@ -65,11 +65,7 @@ export default function dashCreatePost() {
         type="text/css"
         href="assets/vendor/font-awesome/css/all.min.css"
       />
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      />
+      <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-icons/bootstrap-icons.css"/>
       <link
         rel="stylesheet"
         type="text/css"

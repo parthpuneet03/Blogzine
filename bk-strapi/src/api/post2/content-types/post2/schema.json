@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "post2s",
+  "info": {
+    "singularName": "post2",
+    "pluralName": "post2s",
+    "displayName": "Post2"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Body": {
+      "type": "richtext"
+    },
+    "Attatchments": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "user_2": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::user2.user2",
+      "inversedBy": "post_2s"
+    }
+  }
+}

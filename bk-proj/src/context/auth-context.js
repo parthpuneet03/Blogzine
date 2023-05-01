@@ -1,5 +1,5 @@
 import React from "react";
-import jwt_decode from "jwt-decode";
+import axios from "axios";
 
 const AuthContext = React.createContext(null);
 const { Provider } = AuthContext;
@@ -10,7 +10,9 @@ const AuthProvider = ({ children }) => {
   });
 
   const setUserAuthInfo = ({ data }) => {
-    localStorage.setItem("token", JSON.stringify(data.data));
+    const usertoken= JSON.stringify(data.data)
+   
+    localStorage.setItem("token",usertoken );
     const token = localStorage.getItem("token");
     var userData = data.data;
     setAuthState({
@@ -22,10 +24,13 @@ const AuthProvider = ({ children }) => {
   const isUserAuthenticated = () => {
     const token = localStorage.getItem("token");
     console.log(token);
+    const url="http://localhost:1337/api/users/me"
+    var response= axios.get(url , 
+      { headers: {"Authorization":`Bearer ${token}`}}).then(res=>{
+        console.log(res.data);
+      });
     if (token) {
       try {
-        var decoded = jwt_decode(JSON.parse(token));
-        console.log(decoded);
         return true;
       } catch (err) {
         console.log(err);
